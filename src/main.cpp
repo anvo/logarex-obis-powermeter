@@ -16,6 +16,7 @@
 
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
+#include <ESP8266HTTPUpdateServer.h>
 
 #include "obis.h"
 
@@ -25,6 +26,7 @@ const int INPUT_PIN = 14;
 const char* HOSTNAME = "logarex-obis-meter";
 
 ESP8266WebServer server(80);
+ESP8266HTTPUpdateServer updateServer;
 
 std::stringstream inputBuffer;
 double total = 0;
@@ -54,6 +56,7 @@ void setup() {
   if(!MDNS.begin(HOSTNAME)) {
     Serial.println("Failed to start mDNS");
   }
+  MDNS.addService("http", "tcp", 80);
   
   // Webserver
   Serial.println("Starting WebServer");
@@ -66,6 +69,7 @@ void setup() {
     json << "}";
     server.send(200, "application/json,", json.str().c_str());
   });
+  updateServer.setup(&server, "/update");
   server.begin();
   Serial.print("http://");
   Serial.println(WiFi.localIP());

@@ -32,3 +32,6 @@ Connect your browser to `http://<IP of device>` to receive the following output:
 ```
 {"total":13333.2947}
 ```
+
+### OTA Updates
+The device supports OTA updates via the `ESP8266HTTPUpdateServer`. To upload a new firmware, visit `http://<IP of device>/update`.
