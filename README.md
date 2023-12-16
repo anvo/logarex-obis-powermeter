@@ -35,3 +35,16 @@ Connect your browser to `http://<IP of device>` to receive the following output:
 
 ### OTA Updates
 The device supports OTA updates via the `ESP8266HTTPUpdateServer`. To upload a new firmware, visit `http://<IP of device>/update`.
+
+### Home Assistant
+
+```
+sensor:
+  - platform: rest
+    resource: http://<IP of device>
+    unique_id: sensor.logarex-obis-powermeter
+    device_class: energy
+    state_class: total
+    unit_of_measurement: kWh
+    value_template: "{{ value_json.total }}"
+```
